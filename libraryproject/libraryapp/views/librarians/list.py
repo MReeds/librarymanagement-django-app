@@ -24,12 +24,12 @@ def list_librarians(request):
             join auth_user u on l.user_id = u.id
             """)
 
-            all_librarians = db_cursor.fetchall()
+            librarians = db_cursor.fetchall()
 
         template_name = 'librarians/list.html'
 
         context = {
-            'all_librarians': all_librarians
+            'all_librarians': librarians
         }
 
         return render(request, template_name, context)
