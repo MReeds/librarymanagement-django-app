@@ -2,9 +2,9 @@
 {% load static %}
 <body>
     {% block content %}
-    <h1>{{ librarian.first_name }} {{ librarian.last_name }}</h1>
-    <h2> username is {{ librarian.username }}</h2>
-    <h2>Contact them at {{ librarian.email }}</h2>
+    <h1>{{ librarian.user.first_name }} {{ librarian.user.last_name }}</h1>
+    <h2> username is {{ librarian.user.username }}</h2>
+    <h2>Contact them at {{ librarian.user.email }}</h2>
     {% endblock %}
 </body>
 </html>

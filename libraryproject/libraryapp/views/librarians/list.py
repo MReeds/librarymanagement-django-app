@@ -9,12 +9,12 @@ from django.contrib.auth.decorators import login_required
 def list_librarians(request):
     if request.method == 'GET':
         
-        all_librarians = Librarian.objects.values("id", "user__first_name", "user__last_name")        
+        librarians = Librarian.objects.all()
 
         template_name = 'librarians/list.html'
 
         context = {
-            'all_librarians': all_librarians
+            'all_librarians': librarians
         }
 
         return render(request, template_name, context)

@@ -31,3 +31,6 @@ def create_librarian(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_librarian(sender, instance, **kwargs):
     instance.librarian.save()
+    
+def __str__(self):
+    return f"{self.first_name} {self.last_name}"
