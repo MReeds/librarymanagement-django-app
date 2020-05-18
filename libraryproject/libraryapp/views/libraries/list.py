@@ -10,48 +10,17 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def list_libraries(request):
     if request.method == 'GET':
-        with sqlite3.connect(Connection.db_path) as conn:
-            conn.row_factory = create_library
-            db_cursor = conn.cursor()
-            
-            db_cursor.execute("""
-                SELECT
-                    li.id,
-                    li.name,
-                    li.address,
-                    b.id book_id,
-                    b.title book_title,
-                    b.author,
-                    b.year_published,
-                    b.publisher,
-                    b.isbn
-                FROM libraryapp_library li
-                JOIN libraryapp_book b ON li.id = b.library_id
-            """)
-            
-            libraries = db_cursor.fetchall()
-            
-            library_groups = {}
-
-            # Iterate the list of tuples
-            for (library, book) in libraries:
-
-                # If the dictionary does have a key of the current
-                # library's `id` value, add the key and set the value
-                # to the current library
-                if library.id not in library_groups:
-                    library_groups[library.id] = library
-                    library_groups[library.id].books.append(book)
-
-                # If the key does exist, just append the current
-                # book to the list of books for the current library
-                else:
-                    library_groups[library.id].books.append(book)
+        
+        libraries = Library.objects.all()
+        library_books = []
+        
+        for library in libraries:
+            library.books = Book.objects.filter(library_id=library.id)
                 
         template = 'libraries/list.html'
         
         context = {
-            'all_libraries' : library_groups.values()
+            'all_libraries' : libraries
         }
         
         return render(request, template, context)
