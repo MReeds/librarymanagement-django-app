@@ -11,7 +11,7 @@ class Library (models.Model):
         verbose_name_plural = ("libraries")
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
     def get_absolute_url(self):
         return reverse("library _detail", kwargs={"pk": self.pk})
