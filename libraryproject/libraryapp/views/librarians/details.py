@@ -6,24 +6,7 @@ from libraryapp.models import Librarian, model_factory
 from ..connection import Connection
 
 def get_librarian(librarian_id):
-    with sqlite3.connect(Connection.db_path) as conn:
-        conn.row_factory = model_factory(Librarian)
-        db_cursor = conn.cursor()
-        
-        db_cursor.execute("""
-        SELECT 
-            lib.id, 
-            lib.library_id, 
-            us.first_name, 
-            us.last_name, 
-            us.username,
-            us.email
-        FROM libraryapp_librarian lib
-        JOIN auth_user us ON lib.id = us.id
-        WHERE lib.id = ?
-        """, (librarian_id,))
-        
-        return db_cursor.fetchone()
+    return Librarian.objects.get(pk=librarian_id)
     
 @login_required
 def librarian_details(request, librarian_id):
